@@ -2,7 +2,7 @@
 A set of custom 2D colliders for Unity.
 
 ## Preview
-<a href="https://www.youtube.com/watch?v=v6FlvXqluYA" target="_blank">
+<a title="Preview" href="https://www.youtube.com/watch?v=v6FlvXqluYA&list=PLuCGxF1wPog7dYSQ3B8p1gvzBBMp7xsAQ" target="_blank">
 ![alt Preview](http://i.imgur.com/jbxKI0x.png)
 </a>
 
