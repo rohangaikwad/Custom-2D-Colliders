@@ -1,20 +1,28 @@
-﻿///  Custom 2D Colliders
-///  Description: A set of useful custom 2d colliders creation scripts to use in your game.
-///  Copyright(C) 2016 GuyQuad
+﻿/*
+The MIT License (MIT)
 
-///  This program is free software: you can redistribute it and/or modify
-///  it under the terms of the GNU General Public License as published by
-///  the Free Software Foundation, either version 3 of the License, or
-///  any later version.
+Copyright (c) 2016 GuyQuad
 
-///  This program is distributed in the hope that it will be useful,
-///  but WITHOUT ANY WARRANTY; without even the implied warranty of
-///  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-///  GNU General Public License for more details.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-///  You should have received a copy of the GNU General Public License
-///  along with this program.If not, see<http://www.gnu.org/licenses/>.
-///  You can contact me by email at guyquad27@gmail.com or on Reddit at https://www.reddit.com/user/GuyQuad
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+You can contact me by email at guyquad27@gmail.com or on Reddit at https://www.reddit.com/user/GuyQuad
+*/
 
 
 #if UNITY_EDITOR
@@ -36,7 +44,7 @@ public class BezierCurveCollider2D : MonoBehaviour {
     Vector2 origin, center;
 
     [HideInInspector]
-    public bool initialized, openCustomize;
+    public bool initialized;
 
     public bool continous = true;
 
@@ -114,14 +122,15 @@ public class BezierCurveCollider2D : MonoBehaviour {
         pts.Add(cPt2);
     }
 
-    Vector3 CalculateBezierPoint(float t, Vector3 p0, Vector3 handlerP0, Vector3 handlerP1, Vector3 p1)
+    Vector3 CalculateBezierPoint(float t, Vector3 controlP0, Vector3 handlerP0, Vector3 handlerP1, Vector3 controlP1)
     {
         //http://devmag.org.za/2011/04/05/bzier-curves-a-tutorial/
-        Vector3 p = (Mathf.Pow((1.0f - t), 3) * p0) + (3 * Mathf.Pow((1 - t), 2) * t * handlerP0) + (3 * (1.0f - t) * Mathf.Pow(t, 2) * handlerP1) + (Mathf.Pow(t, 3) * p1);
+        Vector3 p = (Mathf.Pow((1.0f - t), 3) * controlP0) + (3 * Mathf.Pow((1 - t), 2) * t * handlerP0) + (3 * (1.0f - t) * Mathf.Pow(t, 2) * handlerP1) + (Mathf.Pow(t, 3) * controlP1);
         return p;
     }
 
-    public void addPoint()
+
+    public void addControlPoint()
     {
         Vector2 pos = controlPoints[controlPoints.Count - 1];
         float hPosY = handlerPoints[handlerPoints.Count - 1].y;
@@ -139,7 +148,8 @@ public class BezierCurveCollider2D : MonoBehaviour {
         drawCurve();
     }
 
-    public void removePoint()
+
+    public void removeControlPoint()
     {
         if(controlPoints.Count > 2)
         {
