@@ -35,6 +35,7 @@ public class CapsuleCollider_Editor : Editor {
     CapsuleCollider2D capCol;
     EdgeCollider2D edgeCollider;
     Vector2 off;
+    bool advanced;
 
     void OnEnable()
     {
@@ -55,6 +56,12 @@ public class CapsuleCollider_Editor : Editor {
         DrawDefaultInspector();
 
         capCol.radius = Mathf.Clamp(capCol.radius, 0.5f, capCol.height / 2);
+        capCol.radius = EditorGUILayout.Slider("Radius", capCol.radius, 0.25f, capCol.height / 2f);
+
+        GUILayout.Space(8);
+        capCol.bullet = EditorGUILayout.Toggle("Bullet", capCol.bullet);
+        if(capCol.bullet) capCol.flip = EditorGUILayout.Toggle("Flip", capCol.flip);
+
 
         if (GUI.changed || !off.Equals(edgeCollider.offset))
         {
