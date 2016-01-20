@@ -38,23 +38,37 @@ public class RoundedBoxCollider_Editor : Editor {
             edgeCollider = rb.GetComponent<EdgeCollider2D>();
         }
 
-        edgeCollider.points = rb.getPoints(edgeCollider.offset);
+        Vector2[] pts = rb.getPoints(edgeCollider.offset);
+        if (pts != null) edgeCollider.points = pts;
     }
 
     public override void OnInspectorGUI()
     {
         GUI.changed = false;
-        DrawDefaultInspector();
+        DrawDefaultInspector();       
 
 
+        // automatically adjust the radius according to width and height
         float lesser = (rb.width > rb.height) ? rb.height : rb.width;
+        lesser /= 2f;
+        lesser = Mathf.Round(lesser * 100f) / 100f; 
+        rb.radius = EditorGUILayout.Slider("Radius",rb.radius, 0f, lesser);
+        rb.radius = Mathf.Clamp(rb.radius, 0f, lesser);
 
-        rb.radius = EditorGUILayout.Slider("Radius",rb.radius, 0f, lesser/2f);
-        rb.radius = Mathf.Clamp(rb.radius, 0f, lesser / 2);
+        if (GUILayout.Button("Reset"))
+        {
+            rb.smoothness = 15;
+            rb.width = 2;
+            rb.height = 2;
+            rb.trapezoid = 0.5f;
+            rb.radius = 0.5f;
+            edgeCollider.offset = Vector2.zero;
+        }
 
         if (GUI.changed || !off.Equals(edgeCollider.offset))
         {
-            edgeCollider.points = rb.getPoints(edgeCollider.offset);
+            Vector2[] pts = rb.getPoints(edgeCollider.offset);
+            if (pts != null) edgeCollider.points = pts;
         }
 
         off = edgeCollider.offset;
