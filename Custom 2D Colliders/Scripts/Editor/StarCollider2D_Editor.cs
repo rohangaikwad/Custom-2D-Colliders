@@ -34,19 +34,18 @@ using System.Collections;
 public class StarCollider_Editor : Editor {
 
     StarCollider2D sc;
-    EdgeCollider2D edgeCollider;
+    PolygonCollider2D polyCollider;
     Vector2 off;
 
     void OnEnable()
     {
         sc = (StarCollider2D)target;
 
-        edgeCollider = sc.GetComponent<EdgeCollider2D>();
-        if (edgeCollider == null) {
-            sc.gameObject.AddComponent<EdgeCollider2D>();
-            edgeCollider = sc.GetComponent<EdgeCollider2D>();
+        polyCollider = sc.GetComponent<PolygonCollider2D>();
+        if (polyCollider == null) {
+            polyCollider = sc.gameObject.AddComponent<PolygonCollider2D>();
         }
-        edgeCollider.points = sc.getPoints(edgeCollider.offset);
+        polyCollider.points = sc.getPoints();
     }
 
     public override void OnInspectorGUI()
@@ -57,12 +56,12 @@ public class StarCollider_Editor : Editor {
         sc.rotation = EditorGUILayout.IntSlider("Rotation", sc.rotation, 0, 360 / sc.points);
 
 
-        if (GUI.changed || !off.Equals(edgeCollider.offset))
+        if (GUI.changed || !off.Equals(polyCollider.offset))
         {
-            edgeCollider.points = sc.getPoints(edgeCollider.offset);
+            polyCollider.points = sc.getPoints();
         }
 
-        off = edgeCollider.offset;
+        off = polyCollider.offset;
     }
 
 }

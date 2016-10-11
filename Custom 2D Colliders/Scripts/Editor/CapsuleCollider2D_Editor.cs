@@ -33,7 +33,7 @@ using System.Collections;
 public class CapsuleCollider_Editor : Editor {
 
     CapsuleCollider2D capCol;
-    EdgeCollider2D edgeCollider;
+    PolygonCollider2D polyCollider;
     Vector2 off;
     bool advanced;
 
@@ -41,13 +41,12 @@ public class CapsuleCollider_Editor : Editor {
     {
         capCol = (CapsuleCollider2D)target;
 
-        edgeCollider = capCol.GetComponent<EdgeCollider2D>();
-        if (edgeCollider == null) {
-            capCol.gameObject.AddComponent<EdgeCollider2D>();
-            edgeCollider = capCol.GetComponent<EdgeCollider2D>();
+        polyCollider = capCol.GetComponent<PolygonCollider2D>();
+        if (polyCollider == null) {
+            polyCollider = capCol.gameObject.AddComponent<PolygonCollider2D>();
         }
 
-        edgeCollider.points = capCol.getPoints(edgeCollider.offset);
+        polyCollider.points = capCol.getPoints();
     }
 
     public override void OnInspectorGUI()
@@ -63,12 +62,12 @@ public class CapsuleCollider_Editor : Editor {
         if(capCol.bullet) capCol.flip = EditorGUILayout.Toggle("Flip", capCol.flip);
 
 
-        if (GUI.changed || !off.Equals(edgeCollider.offset))
+        if (GUI.changed || !off.Equals(polyCollider.offset))
         {
-            edgeCollider.points = capCol.getPoints(edgeCollider.offset);
+            polyCollider.points = capCol.getPoints();
         }
 
-        off = edgeCollider.offset;
+        off = polyCollider.offset;
     }
     
 }

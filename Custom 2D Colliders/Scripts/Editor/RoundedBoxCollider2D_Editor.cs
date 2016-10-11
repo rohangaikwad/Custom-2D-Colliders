@@ -33,21 +33,20 @@ using System.Collections;
 public class RoundedBoxCollider_Editor : Editor {
 
     RoundedBoxCollider2D rb;
-    EdgeCollider2D edgeCollider;
+    PolygonCollider2D polyCollider;
     Vector2 off;
 
     void OnEnable()
     {
         rb = (RoundedBoxCollider2D)target;
 
-        edgeCollider = rb.GetComponent<EdgeCollider2D>();
-        if (edgeCollider == null) {
-            rb.gameObject.AddComponent<EdgeCollider2D>();
-            edgeCollider = rb.GetComponent<EdgeCollider2D>();
+        polyCollider = rb.GetComponent<PolygonCollider2D>();
+        if (polyCollider == null) {
+            polyCollider = rb.gameObject.AddComponent<PolygonCollider2D>();
         }
 
-        Vector2[] pts = rb.getPoints(edgeCollider.offset);
-        if (pts != null) edgeCollider.points = pts;
+        Vector2[] pts = rb.getPoints();
+        if (pts != null) polyCollider.points = pts;
     }
 
     public override void OnInspectorGUI()
@@ -70,16 +69,16 @@ public class RoundedBoxCollider_Editor : Editor {
             rb.height = 2;
             rb.trapezoid = 0.5f;
             rb.radius = 0.5f;
-            edgeCollider.offset = Vector2.zero;
+            polyCollider.offset = Vector2.zero;
         }
 
-        if (GUI.changed || !off.Equals(edgeCollider.offset))
+        if (GUI.changed || !off.Equals(polyCollider.offset))
         {
-            Vector2[] pts = rb.getPoints(edgeCollider.offset);
-            if (pts != null) edgeCollider.points = pts;
+            Vector2[] pts = rb.getPoints();
+            if (pts != null) polyCollider.points = pts;
         }
 
-        off = edgeCollider.offset;
+        off = polyCollider.offset;
     }
     
 }

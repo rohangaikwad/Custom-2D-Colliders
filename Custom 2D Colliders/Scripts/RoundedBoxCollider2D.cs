@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2016 GuyQuad
@@ -32,7 +32,7 @@ using System.Collections.Generic;
 
 [AddComponentMenu("Physics 2D/Rounded Box Collider 2D")]
 
-[RequireComponent(typeof(EdgeCollider2D))]
+[RequireComponent(typeof(PolygonCollider2D))]
 public class RoundedBoxCollider2D : MonoBehaviour {
     
     [Range(10, 90)]
@@ -51,27 +51,23 @@ public class RoundedBoxCollider2D : MonoBehaviour {
     public float trapezoid = .5f;
 
     [HideInInspector]
-    public Vector2 offset, center, center1, center2, center3, center4;
+    public Vector2 offset, center1, center2, center3, center4;
     float ang = 0;
     List<Vector2> points;
 
-    public Vector2[] getPoints(Vector2 off)
+    public Vector2[] getPoints()
     {
         points = new List<Vector2>();
         points.Clear();
-        
-        offset = off;
-        center = transform.localPosition;
-        center += offset;
 
         wt = (width + width) - ((width + width) * trapezoid);   // width top
         wb = (width + width) * trapezoid;                       // width bottom
         
         // vertices
-        Vector2 vTR = new Vector2(center.x + (wt / 2f), center.y + (height / 2f)); // top right vertex
-        Vector2 vTL = new Vector2(center.x + (wt /-2f), center.y + (height / 2f)); // top left vertex
-        Vector2 vBL = new Vector2(center.x + (wb /-2f), center.y - (height / 2f)); // bottom left vertex
-        Vector2 vBR = new Vector2(center.x + (wb / 2f), center.y - (height / 2f)); // bottom right vertex
+        Vector2 vTR = new Vector2((wt / 2f), +(height / 2f)); // top right vertex
+        Vector2 vTL = new Vector2((wt /-2f), +(height / 2f)); // top left vertex
+        Vector2 vBL = new Vector2((wb /-2f), -(height / 2f)); // bottom left vertex
+        Vector2 vBR = new Vector2((wb / 2f), -(height / 2f)); // bottom right vertex
 
         Vector2 dir = vBL - vTL;
         float hypAngleTL = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; // hypertenuse angle top left corner
@@ -109,10 +105,10 @@ public class RoundedBoxCollider2D : MonoBehaviour {
 
 
         // prevent overlapping of the corners
-        center1.x = Mathf.Max(center.x, center1.x);
-        center2.x = Mathf.Min(center.x, center2.x);
-        center3.x = Mathf.Min(center.x, center3.x);
-        center4.x = Mathf.Max(center.x, center4.x);
+        center1.x = Mathf.Max(0, center1.x);
+        center2.x = Mathf.Min(0, center2.x);
+        center3.x = Mathf.Min(0, center3.x);
+        center4.x = Mathf.Max(0, center4.x);
 
 
         // curveTOP angles
@@ -159,10 +155,6 @@ public class RoundedBoxCollider2D : MonoBehaviour {
         calcPoints(center3, totalAngle);
         calcPoints(center4, totalAngle);
 
-
-
-
-        points.Add(points[0]);
         return points.ToArray();
     }
 
