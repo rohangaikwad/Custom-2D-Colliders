@@ -67,8 +67,6 @@ public class StarCollider2D : MonoBehaviour {
             ang += 360f/(points*2f);
         }
 
-        pts.Add(pts[0]);
-
         return pts.ToArray();
     }
 }

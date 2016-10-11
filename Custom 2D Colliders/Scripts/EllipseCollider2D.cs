@@ -32,7 +32,7 @@ using System.Collections.Generic;
 
 [AddComponentMenu("Physics 2D/Ellipse Collider 2D")]
 
-[RequireComponent(typeof(EdgeCollider2D))]
+[RequireComponent(typeof(PolygonCollider2D))]
 public class EllipseCollider2D : MonoBehaviour {
 
     [Range(1, 25)]
