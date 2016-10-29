@@ -31,6 +31,7 @@ using System.Collections.Generic;
 
 namespace UnityEngine
 {
+
     [AddComponentMenu("Physics 2D/Ellipse Collider 2D")]
 
     [RequireComponent(typeof(EdgeCollider2D))]
