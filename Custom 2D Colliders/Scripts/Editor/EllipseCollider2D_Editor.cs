@@ -24,45 +24,41 @@ SOFTWARE.
 You can contact me by email at guyquad27@gmail.com or on Reddit at https://www.reddit.com/user/GuyQuad
 */
 
+
 using UnityEngine;
+using UnityEditor;
 using System.Collections;
 
-namespace UnityEditor
-{
+[CustomEditor (typeof(EllipseCollider2D))]
+public class EllipseCollider_Editor : Editor {
 
-    [CustomEditor(typeof(EllipseCollider2D))]
-    public class EllipseCollider_Editor : Editor
+    EllipseCollider2D ec;
+    EdgeCollider2D edgeCollider;
+    Vector2 off;
+
+    void OnEnable()
     {
+        ec = (EllipseCollider2D)target;
 
-        EllipseCollider2D ec;
-        EdgeCollider2D edgeCollider;
-        Vector2 off;
-
-        void OnEnable()
-        {
-            ec = (EllipseCollider2D)target;
-
+        edgeCollider = ec.GetComponent<EdgeCollider2D>();
+        if (edgeCollider == null) {
+            ec.gameObject.AddComponent<EdgeCollider2D>();
             edgeCollider = ec.GetComponent<EdgeCollider2D>();
-            if (edgeCollider == null)
-            {
-                ec.gameObject.AddComponent<EdgeCollider2D>();
-                edgeCollider = ec.GetComponent<EdgeCollider2D>();
-            }
+        }
+        edgeCollider.points = ec.getPoints(edgeCollider.offset);
+    }
+
+    public override void OnInspectorGUI()
+    {
+        GUI.changed = false;
+        DrawDefaultInspector();
+
+        if (GUI.changed || !off.Equals(edgeCollider.offset))
+        {
             edgeCollider.points = ec.getPoints(edgeCollider.offset);
         }
 
-        public override void OnInspectorGUI()
-        {
-            GUI.changed = false;
-            DrawDefaultInspector();
-
-            if (GUI.changed || !off.Equals(edgeCollider.offset))
-            {
-                edgeCollider.points = ec.getPoints(edgeCollider.offset);
-            }
-
-            off = edgeCollider.offset;
-        }
-
+        off = edgeCollider.offset;
     }
+    
 }
