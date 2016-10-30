@@ -29,36 +29,32 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections;
 
-[CustomEditor (typeof(EllipseCollider2D))]
-public class EllipseCollider_Editor : Editor {
+[CustomEditor(typeof(EllipseCollider2D))]
+public sealed class EllipseCollider_Editor : Editor
+{
+    EllipseCollider2D ellipseCollider
+    {
+        get { return (EllipseCollider2D)target; }
+    }
 
-    EllipseCollider2D ec;
-    EdgeCollider2D edgeCollider;
-    Vector2 off;
-
+    PolygonCollider2D polygonCollider
+    {
+        get {
+            return ellipseCollider.GetComponent<PolygonCollider2D>() ?? ellipseCollider.gameObject.AddComponent<PolygonCollider2D>();
+        }
+    }
+    
     void OnEnable()
     {
-        ec = (EllipseCollider2D)target;
-
-        edgeCollider = ec.GetComponent<EdgeCollider2D>();
-        if (edgeCollider == null) {
-            ec.gameObject.AddComponent<EdgeCollider2D>();
-            edgeCollider = ec.GetComponent<EdgeCollider2D>();
-        }
-        edgeCollider.points = ec.getPoints(edgeCollider.offset);
+        polygonCollider.hideFlags = HideFlags.HideInInspector;
     }
 
     public override void OnInspectorGUI()
     {
         GUI.changed = false;
         DrawDefaultInspector();
-
-        if (GUI.changed || !off.Equals(edgeCollider.offset))
-        {
-            edgeCollider.points = ec.getPoints(edgeCollider.offset);
-        }
-
-        off = edgeCollider.offset;
+        
+        if (GUI.changed)
+            polygonCollider.points = ellipseCollider.getPoints();
     }
-    
 }
