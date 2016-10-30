@@ -49,8 +49,6 @@ public sealed class EllipseCollider2D : MonoBehaviour {
     public int rotation = 0;
 
     public Vector2 offset = new Vector2(0.0f, 0.0f);
-
-    Vector2 origin, center;
     
     public void Start()
     {
@@ -60,8 +58,6 @@ public sealed class EllipseCollider2D : MonoBehaviour {
     public Vector2[] getPoints()
     {
         List<Vector2> points = new List<Vector2>();
-
-        origin = offset;
         
         float ang = 0;
         float o = rotation * Mathf.Deg2Rad;
@@ -69,18 +65,10 @@ public sealed class EllipseCollider2D : MonoBehaviour {
         for (int i = 0; i <= smoothness; i++)
         {
             float a = ang * Mathf.Deg2Rad;
-
-            // fan shuriken
-            //float radius;
-            //float radX = 90 - (Mathf.Abs(ang) % 90);
-            //float radY = 90 - radX;
-            //radius = ((radiusX * radX / 90f) + (radiusY * radY / 90f)) / 2f;
-            //float x = center.x + radius * Mathf.Cos(a);
-            //float y = center.y + radius * Mathf.Sin(a);
-
+            
             // https://www.uwgb.edu/dutchs/Geometry/HTMLCanvas/ObliqueEllipses5a.HTM
-            float x = center.x + radiusX * Mathf.Cos(a) * Mathf.Cos(o) - radiusY * Mathf.Sin(a) * Mathf.Sin(o);
-            float y = center.y - radiusX * Mathf.Cos(a) * Mathf.Sin(o) - radiusY * Mathf.Sin(a) * Mathf.Cos(o);
+            float x = offset.x + radiusX * Mathf.Cos(a) * Mathf.Cos(o) - radiusY * Mathf.Sin(a) * Mathf.Sin(o);
+            float y = offset.y - radiusX * Mathf.Cos(a) * Mathf.Sin(o) - radiusY * Mathf.Sin(a) * Mathf.Cos(o);
 
             points.Add(new Vector2(x, y));
             ang += 360f/smoothness;

@@ -32,7 +32,6 @@ using System.Collections;
 [CustomEditor(typeof(EllipseCollider2D))]
 public sealed class EllipseCollider_Editor : Editor
 {
-
     EllipseCollider2D ellipseCollider
     {
         get { return (EllipseCollider2D)target; }
@@ -45,13 +44,17 @@ public sealed class EllipseCollider_Editor : Editor
         }
     }
     
+    void OnEnable()
+    {
+        polygonCollider.hideFlags = HideFlags.HideInInspector;
+    }
+
     public override void OnInspectorGUI()
     {
         GUI.changed = false;
         DrawDefaultInspector();
-
+        
         if (GUI.changed)
             polygonCollider.points = ellipseCollider.getPoints();
     }
-
 }
