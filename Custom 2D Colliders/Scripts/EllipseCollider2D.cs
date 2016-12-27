@@ -35,7 +35,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(PolygonCollider2D))]
 public class EllipseCollider2D : MonoBehaviour {
 
-    [Range(1, 25)]
+    [Range(1, 25), HideInInspector]
     public float radiusX = 1, radiusY = 2;
 
     [Range(10,90)]
@@ -43,7 +43,10 @@ public class EllipseCollider2D : MonoBehaviour {
 
     [Range(0, 180)]
     public int rotation = 0;
-    
+
+    [HideInInspector]
+    public bool advanced = false;
+
     Vector2 origin, center;
     
     public Vector2[] getPoints()

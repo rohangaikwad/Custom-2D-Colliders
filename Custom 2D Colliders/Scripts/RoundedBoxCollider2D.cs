@@ -38,10 +38,10 @@ public class RoundedBoxCollider2D : MonoBehaviour {
     [Range(10, 90)]
     public int smoothness = 15;
 
-    [Range(.2f, 25)]
+    [Range(.2f, 25), HideInInspector]
     public float height = 2;
 
-    [Range(.2f, 25)]
+    [Range(.2f, 25), HideInInspector]
     public float width = 2;
 
     [HideInInspector]
@@ -52,6 +52,10 @@ public class RoundedBoxCollider2D : MonoBehaviour {
 
     [HideInInspector]
     public Vector2 offset, center1, center2, center3, center4;
+
+    [HideInInspector]
+    public bool advanced = false;
+
     float ang = 0;
     List<Vector2> points;
 

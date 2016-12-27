@@ -55,6 +55,18 @@ public class StarCollider_Editor : Editor {
 
         sc.rotation = EditorGUILayout.IntSlider("Rotation", sc.rotation, 0, 360 / sc.points);
 
+        sc.advanced = EditorGUILayout.Toggle("Advanced", sc.advanced);
+        if (sc.advanced)
+        {
+            sc.radiusA = EditorGUILayout.FloatField("RadiusA", sc.radiusA);
+            sc.radiusB = EditorGUILayout.FloatField("RadiusB", sc.radiusB);
+        }
+        else
+        {
+            sc.radiusA = EditorGUILayout.Slider("RadiusA", sc.radiusA, 1, 25);
+            sc.radiusB = EditorGUILayout.Slider("RadiusB", sc.radiusB, 1, 25);
+        }
+
 
         if (GUI.changed || !off.Equals(polyCollider.offset))
         {

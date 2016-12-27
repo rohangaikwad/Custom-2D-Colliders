@@ -61,6 +61,18 @@ public class RoundedBoxCollider_Editor : Editor {
         lesser = Mathf.Round(lesser * 100f) / 100f; 
         rb.radius = EditorGUILayout.Slider("Radius",rb.radius, 0f, lesser);
         rb.radius = Mathf.Clamp(rb.radius, 0f, lesser);
+        
+        rb.advanced = EditorGUILayout.Toggle("Advanced", rb.advanced);
+        if (rb.advanced)
+        {
+            rb.height = EditorGUILayout.FloatField("Height", rb.height);
+            rb.width = EditorGUILayout.FloatField("Width", rb.width);
+        }
+        else
+        {
+            rb.height = EditorGUILayout.Slider("Height", rb.height, 1, 25);
+            rb.width = EditorGUILayout.Slider("Width", rb.width, 1, 25);
+        }
 
         if (GUILayout.Button("Reset"))
         {

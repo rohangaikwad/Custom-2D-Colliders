@@ -35,10 +35,10 @@ using System.Collections.Generic;
 [RequireComponent(typeof(PolygonCollider2D))]
 public class StarCollider2D : MonoBehaviour {
 
-    [Range(1, 25)]
+    [Range(1, 25), HideInInspector]
     public float radiusA = 1;
 
-    [Range(1, 25)]
+    [Range(1, 25), HideInInspector]
     public float radiusB = 2;
 
     [Range(3,36)]
@@ -46,7 +46,10 @@ public class StarCollider2D : MonoBehaviour {
     
     [HideInInspector]
     public int rotation = 0;
-    
+
+    [HideInInspector]
+    public bool advanced = false;
+
     Vector2 origin, center;
     
     public Vector2[] getPoints()

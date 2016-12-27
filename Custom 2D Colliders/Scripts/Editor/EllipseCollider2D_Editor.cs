@@ -52,6 +52,18 @@ public class EllipseCollider_Editor : Editor {
         GUI.changed = false;
         DrawDefaultInspector();
 
+        ec.advanced = EditorGUILayout.Toggle("Advanced", ec.advanced);
+        if (ec.advanced)
+        {
+            ec.radiusX = EditorGUILayout.FloatField("RadiusX", ec.radiusX);
+            ec.radiusY = EditorGUILayout.FloatField("RadiusY", ec.radiusY);
+        }
+        else
+        {
+            ec.radiusX = EditorGUILayout.Slider("RadiusX", ec.radiusX, 1, 25);
+            ec.radiusY = EditorGUILayout.Slider("RadiusY", ec.radiusY, 1, 25);
+        }
+
         if (GUI.changed || !off.Equals(polyCollider.offset))
         {
             polyCollider.points = ec.getPoints();
