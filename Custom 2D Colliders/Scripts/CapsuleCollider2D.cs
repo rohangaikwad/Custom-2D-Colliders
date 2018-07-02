@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2016 GuyQuad
@@ -32,7 +32,7 @@ using System.Collections.Generic;
 
 [AddComponentMenu("Physics 2D/Capsule Collider 2D")]
 
-[RequireComponent(typeof(EdgeCollider2D))]
+[RequireComponent(typeof(PolygonCollider2D))]
 public class CapsuleCollider2D : MonoBehaviour {
 
     [HideInInspector]
@@ -55,27 +55,26 @@ public class CapsuleCollider2D : MonoBehaviour {
     List<Vector2> points;
     float ang = 0;
 
-    public Vector2[] getPoints(Vector2 off)
+    public Vector2[] getPoints()
     {
         points = new List<Vector2>();
 
         origin = transform.localPosition;
-        center = origin + off;
 
         float r = (height / 2f) - (radius);
 
         if (bullet && flip) r += radius;
         
-        center1.x = center.x + r * Mathf.Sin(rotation * Mathf.Deg2Rad);
-        center1.y = center.y + r * Mathf.Cos(rotation * Mathf.Deg2Rad);
+        center1.x = r * Mathf.Sin(rotation * Mathf.Deg2Rad);
+        center1.y = r * Mathf.Cos(rotation * Mathf.Deg2Rad);
 
         if (bullet) {
             if (!flip) r += radius;
             else r -= radius;
         }
 
-        center2.x = center.x + r * Mathf.Sin((rotation + 180f) * Mathf.Deg2Rad);
-        center2.y = center.y + r * Mathf.Cos((rotation + 180f) * Mathf.Deg2Rad);
+        center2.x = r * Mathf.Sin((rotation + 180f) * Mathf.Deg2Rad);
+        center2.y = r * Mathf.Cos((rotation + 180f) * Mathf.Deg2Rad);
 
 
 
@@ -120,7 +119,6 @@ public class CapsuleCollider2D : MonoBehaviour {
             }
         }
 
-        points.Add(points[0]);
         return points.ToArray();
     }
 

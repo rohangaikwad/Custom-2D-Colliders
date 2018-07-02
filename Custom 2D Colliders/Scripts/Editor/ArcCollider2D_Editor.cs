@@ -33,19 +33,19 @@ using System.Collections;
 public class ArcCollider_Editor : Editor {
     
     ArcCollider2D ac;
-    EdgeCollider2D edgeCollider;
+    PolygonCollider2D polyCollider;
     Vector2 off;
 
     void OnEnable()
     {
         ac = (ArcCollider2D)target;
 
-        edgeCollider = ac.GetComponent<EdgeCollider2D>();
-        if (edgeCollider == null) {
-            ac.gameObject.AddComponent<EdgeCollider2D>();
-            edgeCollider = ac.GetComponent<EdgeCollider2D>();
+        polyCollider = ac.GetComponent<PolygonCollider2D>();
+        if (polyCollider == null) {
+            ac.gameObject.AddComponent<PolygonCollider2D>();
+            polyCollider = ac.GetComponent<PolygonCollider2D>();
         }
-        edgeCollider.points = ac.getPoints(edgeCollider.offset);
+        polyCollider.points = ac.getPoints(polyCollider.offset);
     }
 
     public override void OnInspectorGUI()
@@ -53,11 +53,32 @@ public class ArcCollider_Editor : Editor {
         GUI.changed = false;
         DrawDefaultInspector();
 
-        if (GUI.changed || !off.Equals(edgeCollider.offset))
+        ac.advanced = EditorGUILayout.Toggle("Advanced", ac.advanced);
+        if (ac.advanced)
         {
-            edgeCollider.points = ac.getPoints(edgeCollider.offset);
+            ac.radius = EditorGUILayout.FloatField("Radius", ac.radius);
         }
-        off = edgeCollider.offset;
+        else
+        {
+            ac.radius = EditorGUILayout.Slider("Radius", ac.radius, 1, 25);
+        }
+        if (!ac.pizzaSlice)
+        {
+            if (ac.advanced)
+            {
+                ac.Thickness = EditorGUILayout.FloatField("Thickness", ac.Thickness);
+            }
+            else
+            {
+                ac.Thickness = EditorGUILayout.Slider("Thickness", ac.Thickness, 1, 25);
+            }
+        }
+
+        if (GUI.changed || !off.Equals(polyCollider.offset))
+        {
+            polyCollider.points = ac.getPoints(polyCollider.offset);
+        }
+        off = polyCollider.offset;
     }
     
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2016 GuyQuad
@@ -32,10 +32,10 @@ using System.Collections.Generic;
 
 [AddComponentMenu("Physics 2D/Ellipse Collider 2D")]
 
-[RequireComponent(typeof(EdgeCollider2D))]
+[RequireComponent(typeof(PolygonCollider2D))]
 public class EllipseCollider2D : MonoBehaviour {
 
-    [Range(1, 25)]
+    [Range(1, 25), HideInInspector]
     public float radiusX = 1, radiusY = 2;
 
     [Range(10,90)]
@@ -43,15 +43,15 @@ public class EllipseCollider2D : MonoBehaviour {
 
     [Range(0, 180)]
     public int rotation = 0;
-    
+
+    [HideInInspector]
+    public bool advanced = false;
+
     Vector2 origin, center;
     
-    public Vector2[] getPoints(Vector2 off)
+    public Vector2[] getPoints()
     {
         List<Vector2> points = new List<Vector2>();
-
-        origin = transform.localPosition;
-        center = origin + off;
         
         float ang = 0;
         float o = rotation * Mathf.Deg2Rad;
@@ -69,13 +69,14 @@ public class EllipseCollider2D : MonoBehaviour {
             //float y = center.y + radius * Mathf.Sin(a);
 
             // https://www.uwgb.edu/dutchs/Geometry/HTMLCanvas/ObliqueEllipses5a.HTM
-            float x = center.x + radiusX * Mathf.Cos(a) * Mathf.Cos(o) - radiusY * Mathf.Sin(a) * Mathf.Sin(o);
-            float y = center.y - radiusX * Mathf.Cos(a) * Mathf.Sin(o) - radiusY * Mathf.Sin(a) * Mathf.Cos(o);
+            float x = radiusX * Mathf.Cos(a) * Mathf.Cos(o) - radiusY * Mathf.Sin(a) * Mathf.Sin(o);
+            float y = -radiusX * Mathf.Cos(a) * Mathf.Sin(o) - radiusY * Mathf.Sin(a) * Mathf.Cos(o);
 
             points.Add(new Vector2(x, y));
             ang += 360f/smoothness;
         }
 
+        points.RemoveAt(0);
         return points.ToArray();
     }
 }

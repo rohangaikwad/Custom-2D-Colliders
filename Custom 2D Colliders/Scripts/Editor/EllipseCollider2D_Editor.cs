@@ -33,19 +33,18 @@ using System.Collections;
 public class EllipseCollider_Editor : Editor {
 
     EllipseCollider2D ec;
-    EdgeCollider2D edgeCollider;
+    PolygonCollider2D polyCollider;
     Vector2 off;
 
     void OnEnable()
     {
         ec = (EllipseCollider2D)target;
 
-        edgeCollider = ec.GetComponent<EdgeCollider2D>();
-        if (edgeCollider == null) {
-            ec.gameObject.AddComponent<EdgeCollider2D>();
-            edgeCollider = ec.GetComponent<EdgeCollider2D>();
+        polyCollider = ec.GetComponent<PolygonCollider2D>();
+        if (polyCollider == null) {
+            polyCollider = ec.gameObject.AddComponent<PolygonCollider2D>();
         }
-        edgeCollider.points = ec.getPoints(edgeCollider.offset);
+        polyCollider.points = ec.getPoints();
     }
 
     public override void OnInspectorGUI()
@@ -53,12 +52,24 @@ public class EllipseCollider_Editor : Editor {
         GUI.changed = false;
         DrawDefaultInspector();
 
-        if (GUI.changed || !off.Equals(edgeCollider.offset))
+        ec.advanced = EditorGUILayout.Toggle("Advanced", ec.advanced);
+        if (ec.advanced)
         {
-            edgeCollider.points = ec.getPoints(edgeCollider.offset);
+            ec.radiusX = EditorGUILayout.FloatField("RadiusX", ec.radiusX);
+            ec.radiusY = EditorGUILayout.FloatField("RadiusY", ec.radiusY);
+        }
+        else
+        {
+            ec.radiusX = EditorGUILayout.Slider("RadiusX", ec.radiusX, 1, 25);
+            ec.radiusY = EditorGUILayout.Slider("RadiusY", ec.radiusY, 1, 25);
         }
 
-        off = edgeCollider.offset;
+        if (GUI.changed || !off.Equals(polyCollider.offset))
+        {
+            polyCollider.points = ec.getPoints();
+        }
+
+        off = polyCollider.offset;
     }
     
 }
