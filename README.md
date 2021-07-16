@@ -17,8 +17,12 @@ A set of custom 2D colliders for Unity.
 ### Method 1:
 
 - Open your Unity project
-- Go to Assets > Import Package > Custom Package > Browse ![alt Select Package] (http://i.imgur.com/RuTrR2p.png)
-- Select **CustomColliders2D.unitypackage** ![alt Select Package] (http://i.imgur.com/dlmBDkA.png)
+- Go to Assets > Import Package > Custom Package > Browse 
+
+![alt Select Package](http://i.imgur.com/RuTrR2p.png)
+- Select **CustomColliders2D.unitypackage**
+
+![alt Select Package](http://i.imgur.com/dlmBDkA.png)
 - Select all the files
 - Click on **Import** 
  
