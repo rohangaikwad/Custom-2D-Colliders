@@ -86,7 +86,7 @@ public class BezierCurveCollider_Editor : Editor {
         for (int i = 0; i < bc.controlPoints.Count; i++)
         {
             Vector3 start = bc.controlPoints[i];
-            Vector3 newPos = Handles.FreeMoveHandle(bc.controlPoints[i], Quaternion.identity, .25f, Vector3.zero, Handles.ConeCap);
+            Vector3 newPos = Handles.FreeMoveHandle(bc.controlPoints[i], Quaternion.identity, .25f, Vector3.zero, Handles.ConeHandleCap);
             bc.controlPoints[i] = newPos;
 
             // if the control point was moved.. offset the joining handler points
@@ -131,7 +131,7 @@ public class BezierCurveCollider_Editor : Editor {
         {
             for (int i = 0; i < bc.handlerPoints.Count; i++)
             {
-                bc.handlerPoints[i] = Handles.FreeMoveHandle(bc.handlerPoints[i], Quaternion.identity, .5f, Vector3.zero, Handles.ConeCap);
+                bc.handlerPoints[i] = Handles.FreeMoveHandle(bc.handlerPoints[i], Quaternion.identity, .5f, Vector3.zero, Handles.ConeHandleCap);
             }
         }
         else
@@ -142,7 +142,7 @@ public class BezierCurveCollider_Editor : Editor {
                 // if there are only 2 control points
                 if (bc.controlPoints.Count == 2)
                 {
-                    bc.handlerPoints[i] = Handles.FreeMoveHandle(bc.handlerPoints[i], Quaternion.identity, .5f, Vector3.zero, Handles.ConeCap);
+                    bc.handlerPoints[i] = Handles.FreeMoveHandle(bc.handlerPoints[i], Quaternion.identity, .5f, Vector3.zero, Handles.ConeHandleCap);
                 }
                 // if there are more than 2 control points
                 else if (bc.controlPoints.Count > 2)
@@ -150,13 +150,13 @@ public class BezierCurveCollider_Editor : Editor {
                     // no additional calculations required for the first and last handler points
                     if (i == 0 || i == bc.handlerPoints.Count - 1)
                     {
-                        bc.handlerPoints[i] = Handles.FreeMoveHandle(bc.handlerPoints[i], Quaternion.identity, .5f, Vector3.zero, Handles.ConeCap);
+                        bc.handlerPoints[i] = Handles.FreeMoveHandle(bc.handlerPoints[i], Quaternion.identity, .5f, Vector3.zero, Handles.ConeHandleCap);
                     }
                     else
                     {
                         // changes for the rest of the handler points in the middle
                         Vector3 start = bc.handlerPoints[i];
-                        Vector3 newPos = Handles.FreeMoveHandle(bc.handlerPoints[i], Quaternion.identity, .5f, Vector3.zero, Handles.ConeCap);
+                        Vector3 newPos = Handles.FreeMoveHandle(bc.handlerPoints[i], Quaternion.identity, .5f, Vector3.zero, Handles.ConeHandleCap);
                         bc.handlerPoints[i] = newPos;
 
                         if (!start.Equals(newPos))
